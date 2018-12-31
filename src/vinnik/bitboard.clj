@@ -56,10 +56,6 @@
       all))))
 
 (defn bitboard-test
-  [bitboard i]
-  (.testBit bitboard i))
-
-(defn bitboard-test
   [bitboard index]
   (.testBit bitboard index))
 
