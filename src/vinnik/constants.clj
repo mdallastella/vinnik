@@ -2,6 +2,8 @@
   (:require [vinnik.bitboard :as bb]
             [vinnik.square :as sq]))
 
+(def ^:const piece-types [:pawns :rooks :knights :bishops :queen :king])
+
 ;; Black initial positions
 (def ^:const initial-black-pawns (sq/squares ["a7" "b7" "c7" "d7" "e7" "f7" "g7" "h7"]))
 (def ^:const initial-black-rooks (sq/squares ["a8" "h8"]))
@@ -10,11 +12,8 @@
 (def ^:const initial-black-queen (sq/squares ["d8"]))
 (def ^:const initial-black-king (sq/squares ["e8"]))
 (def ^:const initial-black-pieces (concat initial-black-pawns initial-black-rooks
-                                      initial-black-knights initial-black-bishops
-                                      initial-black-queen initial-black-king))
-(def ^:const black-bitboards [:black-pawns :black-rooks
-                              :black-knights :black-bishops
-                              :black-queen :black-king])
+                                          initial-black-knights initial-black-bishops
+                                          initial-black-queen initial-black-king))
 
 ;; White initial positions
 (def ^:const initial-white-pawns (sq/squares ["a2" "b2" "c2" "d2" "e2" "f2" "g2" "h2"]))
@@ -26,12 +25,10 @@
 (def ^:const initial-white-pieces (concat initial-white-pawns initial-white-rooks
                                           initial-white-knights initial-white-bishops
                                           initial-white-queen initial-white-king))
-(def ^:const white-bitboards [:white-pawns :white-rooks
-                              :white-knights :white-bishops
-                              :white-queen :white-king])
+
 ;; Whole pieces position
-(def ^:const initial-whole-pieces (concat initial-black-pieces initial-white-pieces))
-(def ^:const whole-bitboards (concat black-bitboards white-bitboards))
+(def ^:const initial-whole-pieces (concat initial-black-pieces
+                                          initial-white-pieces))
 
 (def ^:const files-bitbords
   (let [files ["a" "b" "c" "d" "e" "f" "g" "h"]
