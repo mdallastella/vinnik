@@ -1,4 +1,4 @@
-(ns vinnik.moves)
+(ns vinnik.directions)
 
 ;; Ray-directions
 ;; northwest    north   northeast
