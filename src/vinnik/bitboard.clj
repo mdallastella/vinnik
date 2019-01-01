@@ -55,6 +55,10 @@
       empty-bitboard
       all))))
 
+(defn bitboard-not
+  [bitboard]
+  (.not bitboard))
+
 (defn bitboard-test
   [bitboard index]
   (.testBit bitboard index))
