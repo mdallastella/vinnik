@@ -30,7 +30,7 @@
 (def ^:const initial-whole-pieces (concat initial-black-pieces
                                           initial-white-pieces))
 
-(def ^:const files-bitbords
+(def ^:const files-bitboards
   (let [files ["a" "b" "c" "d" "e" "f" "g" "h"]
         ranks (range 1 9)]
     (reduce
@@ -41,3 +41,15 @@
          (assoc acc (keyword file) file-bitboard)))
      {}
      files)))
+
+(def ^:const ranks-bitboards
+  (let [files ["a" "b" "c" "d" "e" "f" "g" "h"]
+        ranks (range 1 9)]
+    (reduce
+     (fn [acc rank]
+       (let [rank-squares (map str files (repeat rank))
+             rank-indexes (sq/squares rank-squares)
+             rank-bitboards (bb/bitboard rank-indexes)]
+         (assoc acc (keyword (str rank)) rank-bitboards)))
+     {}
+     ranks)))
