@@ -44,7 +44,7 @@
 (defn- board-test-bitboard
   [board bitboard-key index]
   (let [current-board (:whole-pieces board)]
-    (bb/bitboard-test
+    (bb/bitboard-set?
      (bb/bitboard-and current-board
                       (get board bitboard-key))
      index)))

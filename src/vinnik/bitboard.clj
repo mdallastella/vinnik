@@ -16,14 +16,18 @@
                             biginteger))
 
 (defn bitboard-set
+  "Sets on the board the bit at index to 1."
   [^BigInteger board index]
   (.setBit board index))
 
 (defn bitboard-unset
+  "Sets on the board the bit at index to 0."
   [^BigInteger board index]
   (.clearBit board index))
 
 (defn bitboard
+  "Return a bitboard (64bit integer). With arguments, set the bits to 1, without
+  arguments returns an empty bitboard (0N)."
   ([]
    (biginteger 0))
   ([indexes]
@@ -34,6 +38,7 @@
     indexes)))
 
 (defn bitboard-and
+  "Perform a bitwise and operation between two or more bitboards."
   ([x y]
    (.and x y))
   ([x y & more]
@@ -45,6 +50,7 @@
       all))))
 
 (defn bitboard-or
+  "Perform a bitwise or operation between two or more bitboards."
   ([x y]
    (.or x y))
   ([x y & more]
@@ -56,20 +62,28 @@
       all))))
 
 (defn bitboard-not
-  [bitboard]
-  (.not bitboard))
+  "Return the complementary bitboard (~bitboard).
+  For example, 1001 become 0110."
+  [^BigInteger bitboard]
+  (->> (range 63 -1 -1)
+       (reduce
+        (fn [acc index]
+          (.flipBit acc index))
+        bitboard)))
 
-(defn bitboard-test
+(defn bitboard-set?
+  "Return true if the bit required is set on the bitboard."
   [bitboard index]
   (.testBit bitboard index))
 
 (defn- zero-or-one-test
   [^BigInteger bitboard index]
-  (if (bitboard-test bitboard index)
+  (if (bitboard-set? bitboard index)
     "1"
     "0"))
 
 (defn pprint
+  "Pretty print the bitboard"
   [^BigInteger bitboard]
   (->> (range 63 -1 -1)
        (map (partial zero-or-one-test bitboard))
