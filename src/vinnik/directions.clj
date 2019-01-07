@@ -9,34 +9,40 @@
 ;;         -9    -8    -7
 ;; southwest    south   southeast
 
-(defn shift-north
+(defn north
   [^BigInteger bitboard]
   (.shiftLeft bitboard 8))
 
-(defn shift-east
+(defn east
   [^BigInteger bitboard]
   (.shiftRight bitboard 1))
 
-(defn shift-south
+(def double-east
+  (comp east east))
+
+(defn south
   [^BigInteger bitboard]
   (.shiftRight bitboard 8))
 
-(defn shift-west
+(defn west
   [^BigInteger bitboard]
   (.shiftLeft bitboard 1))
 
-(defn shift-north-east
-  [^BigInteger bitboard]
-  (.shiftLeft bitboard 7))
+(def double-west
+  (comp west west))
 
-(defn shift-north-west
+(defn north-west
   [^BigInteger bitboard]
   (.shiftLeft bitboard 9))
 
-(defn shift-south-east
+(defn north-east
+  [^BigInteger bitboard]
+  (.shiftLeft bitboard 7))
+
+(defn south-east
   [^BigInteger bitboard]
   (.shiftRight bitboard 9))
 
-(defn shift-south-west
+(defn south-west
   [^BigInteger bitboard]
   (.shiftRight bitboard 7))
