@@ -42,6 +42,13 @@
      {}
      files)))
 
+(def ^:const not-files-bitboards
+  (reduce-kv
+   (fn [m k v]
+     (assoc m k (bb/bitboard-not v)))
+   {}
+   files-bitboards))
+
 (def ^:const ranks-bitboards
   (let [files ["a" "b" "c" "d" "e" "f" "g" "h"]
         ranks (range 1 9)]
@@ -53,3 +60,10 @@
          (assoc acc (keyword (str rank)) rank-bitboards)))
      {}
      ranks)))
+
+(def ^:const not-ranks-bitboards
+  (reduce-kv
+   (fn [m k v]
+     (assoc m k (bb/bitboard-not v)))
+   {}
+   ranks-bitboards))
