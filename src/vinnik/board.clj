@@ -21,14 +21,16 @@
                                  (bb/bitboard c/initial-white-pieces))})
 
 (defn update-composite-bitboard
-  [current-board color]
-  (let [bitboards (-> (get current-board color)
+  "Take all the bitboard of one side and update the pieces positions."
+  [board color]
+  (let [bitboards (-> (get board color)
                       (dissoc :pieces)
                       vals)]
-    (assoc-in current-board [color :pieces]
+    (assoc-in board [color :pieces]
               (apply bb/bitboard-or bitboards))))
 
 (defn update-whole-pieces
+  "Take all the bitboard of one side and update the pieces positions."
   [board]
   (->> (bb/bitboard-or (get-in board [:black :pieces])
                        (get-in board [:white :pieces]))
@@ -36,11 +38,26 @@
 
 (defn- board-test-bitboard
   [board bitboard-key index]
-  (let [current-board (:whole-pieces board)]
+  (let [whole-bitboard (:whole-pieces board)]
     (bb/bitboard-set?
-     (bb/bitboard-and current-board
+     (bb/bitboard-and whole-bitboard
                       (get-in board bitboard-key))
      index)))
+
+(defn bb-color-piece
+  "Return the bitboard of a specific color/piece from the board."
+  [board color piece]
+  (get-in board [color piece]))
+
+(defn bb-black-piece
+  "Return the bitboard for a specific black piece from the board."
+  [board piece]
+  (bb-color-piece board :black piece))
+
+(defn bb-white-piece
+  "Return the bitboard for a specific white piece from the board."
+  [board piece]
+  (bb-color-piece board :white piece))
 
 (defn pprint
   "Pretty print the chessboard."
