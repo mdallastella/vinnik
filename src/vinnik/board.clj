@@ -20,7 +20,7 @@
    :whole-pieces (bb/bitboard-or (bb/bitboard c/initial-black-pieces)
                                  (bb/bitboard c/initial-white-pieces))})
 
-(defn- update-composite-bitboard
+(defn update-composite-bitboard
   [current-board color]
   (let [bitboards (-> (get current-board color)
                       (dissoc :pieces)
@@ -28,39 +28,33 @@
     (assoc-in current-board [color :pieces]
               (apply bb/bitboard-or bitboards))))
 
-(defn update-black-pieces
-  [board]
-  (update-composite-bitboard board :black))
-
-(defn update-white-pieces
-  [board]
-  (update-composite-bitboard board :white))
-
 (defn update-whole-pieces
   [board]
-  (bb/bitboard-or (get-in board [:black :pieces])
-                  (get-in board [:white :pieces])))
+  (->> (bb/bitboard-or (get-in board [:black :pieces])
+                       (get-in board [:white :pieces]))
+       (assoc board :whole-pieces)))
 
 (defn- board-test-bitboard
   [board bitboard-key index]
   (let [current-board (:whole-pieces board)]
     (bb/bitboard-set?
      (bb/bitboard-and current-board
-                      (get board bitboard-key))
+                      (get-in board bitboard-key))
      index)))
 
 (defn pprint
+  "Pretty print the chessboard."
   [board]
   (let [indexes (range 63 -1 -1)]
     (->> (reduce
           (fn [acc index]
             (cond
+              (board-test-bitboard board [:black :pawns] index) (conj acc "♟")
               (board-test-bitboard board [:black :rooks] index) (conj acc "♜")
               (board-test-bitboard board [:black :knights] index) (conj acc "♞")
               (board-test-bitboard board [:black :bishops] index) (conj acc "♝")
               (board-test-bitboard board [:black :queen] index) (conj acc "♛")
               (board-test-bitboard board [:black :king] index) (conj acc "♚")
-              (board-test-bitboard board [:black :pawns] index) (conj acc "♟")
               (board-test-bitboard board [:white :pawns] index) (conj acc "♙")
               (board-test-bitboard board [:white :rooks] index) (conj acc "♖")
               (board-test-bitboard board [:white :bishops] index) (conj acc "♗")
