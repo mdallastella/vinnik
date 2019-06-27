@@ -1,0 +1,6 @@
+#+startup: showall
+
+Vinnik is an attempt to write a chess engine in Clojure using the technique of
+bitboards representation.
+
+The tech source is [[https://www.chessprogramming.org][Chessprogramming]].
